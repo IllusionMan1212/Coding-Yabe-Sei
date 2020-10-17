@@ -1,6 +1,4 @@
-const Discord = require('discord.js');
-
-exports.run = (client, message, args) => {
+exports.run = ( message, args ) => {
     let sentence = args.join(' ');
     if (!sentence) return message.reply('I can\'t owo-fy an empty message! uwu');
     

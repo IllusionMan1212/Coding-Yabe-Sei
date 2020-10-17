@@ -19,6 +19,7 @@ The Usual
 - Slap (slaps the user you mention, `yabe slap <@user to slap>`)
 - Smug (posts a random smug anime girl, `yabe smug`)
 and many more
+- Fact (tells you a random fact, `yabe fact`)
 
 #### Games
 - 8ball (ask yabe a question and she'll give you your desired answer, `yabe 8ball <question>`)
