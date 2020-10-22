@@ -6,7 +6,7 @@ describe('Configuration', () => {
 
   test('Correct version', () => {
     const { botVersion } = config;
-    expect(botVersion).toEqual('0.4.0');
+    expect(botVersion).toEqual('0.5.0');
   });
 
   test('Expected developers', () => {
@@ -76,7 +76,7 @@ describe('Configuration', () => {
 
     describe('logChannel', () => {
       test('default', () => {
-        expect(config.logChannel).toEqual('516054347008966667');
+        expect(config.logChannel).toEqual('768892341707604019');
       });
       test('set', () => {
         const newChannel = '123';
@@ -88,7 +88,7 @@ describe('Configuration', () => {
 
     describe('disconnectChannel', () => {
       test('default', () => {
-        expect(config.disconnectChannel).toEqual('531654018909339650');
+        expect(config.disconnectChannel).toEqual('768892341707604019');
       });
       test('set', () => {
         const newChannel = '123';
@@ -100,7 +100,7 @@ describe('Configuration', () => {
 
     describe('bugChannel', () => {
       test('default', () => {
-        expect(config.bugChannel).toEqual('533714573031899156');
+        expect(config.bugChannel).toEqual('768892299484069988');
       });
       test('set', () => {
         const newChannel = '123';
