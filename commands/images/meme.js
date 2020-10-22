@@ -1,22 +1,25 @@
 const Discord = require("discord.js");
-const request = require("request");
+const fetch = require("node-fetch"); 
 
-exports.run = (client, message, _args) => {
+exports.run = async (client, message, _args) => {
+    const url = "https://some-random-api.ml/meme";
+
     try {
-    //This is a command purely for memes
-    request("https://some-random-api.ml/meme", function (error, _response, body) {
-        if(error) return message.channel.send('Sorry, it appears an error has occurred fetching your meme!').then(() => console.error(error.message))
+    //This is a command purely for memes (Copy) - Wow thanks couldnt tell
 
-        const json = JSON.parse(body);
-        const { id, image, caption, category } = json;
+    let res = await fetch(url);
 
-        const emb = new Discord.MessageEmbed();
-            emb.setDescription(`${caption} - ${category} #${id}`);
-            emb.setColor(client.config.embedColor);
-            emb.setImage(image);
+    if(!res.ok) return message.channel.send('Sorry, it appears an error has occurred fetching your meme!').then(() => console.error(error.message))
 
-        message.channel.send(emb);
-    });
+    const json = await res.json();
+    const { id, image, caption, category } = json;
+
+    const emb = new Discord.MessageEmbed();
+        emb.setDescription(`${caption} - ${category} #${id}`);
+        emb.setColor(client.config.embedColor);
+        emb.setImage(image);
+
+    message.channel.send(emb);
     } catch (e) {
         console.error(e.message);
     }

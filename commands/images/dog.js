@@ -1,23 +1,20 @@
-const Discord = require('discord.js');
-const request = require('request');
+const fetch = require('node-fetch');
 
-exports.run = (client, message, args) => {
-    let url = 'https://random.dog/woof.json';
-    try {
-        request({
-            url: url,
-            json: true
-        }, function (error, response, body) {
+exports.run = async (client, message, args) => {
+    const url = 'https://random.dog/woof.json';
+    
+    let res = await fetch(url);
 
-            if (!error && response.statusCode === 200) {
-                message.channel.send(body.url);
-            }
-        })
-    } catch (err) {
-        console.log(err);
+    if(!res.ok){
+        message.channel.send("Something went wrong! Tell a dev or try again.")
+        return
     }
-}
 
+    const json = await res.json();
+
+    message.channel.send(json.url);
+
+}
 exports.help = {
     enabled: true,
     hideHelp: false,

@@ -1,25 +1,26 @@
 const Discord = require("discord.js");
-const request = require("request");
+const fetch = require("node-fetch");
 
-exports.run = (client, message) => {
+
+exports.run = async (client, message) => {
     const baseUrl = "https://api.illusionman1212.me/kotapi/";
 
-    request(baseUrl, function (error, _response, body) {
-        if (error) {
-            message.channel.send("Sorry something seems to have gone wrong!");
-            console.log(error);
-            return;
-        }
+    let res = await fetch(baseUrl);
 
-        body = JSON.parse(body);
-        const imgURL = body.url;
+    if (!res.ok) {
+        message.channel.send("Sorry something seems to have gone wrong!");
+        console.log(error);
+        return;
+    }
 
-        const emb = new Discord.MessageEmbed();
-            emb.setColor(client.config.embedColor);
-            emb.setImage(imgURL);
+    body = await res.json();
+    const imgURL = body.url;
 
-        message.channel.send(emb);
-    })
+    const emb = new Discord.MessageEmbed();
+        emb.setColor(client.config.embedColor);
+        emb.setImage(imgURL);
+
+    message.channel.send(emb);
 }
 
 exports.help = {
