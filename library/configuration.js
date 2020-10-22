@@ -18,9 +18,9 @@ const Configuration = {
   useNewHelp: process.env.USE_NEW_HELP || 'true',
   embedColor: process.env.EMBED_COLOR || '0x1355A4',
   botVersion: packageJson.version,
-  logChannel: process.env.LOG_CHANNEL || '516054347008966667',
-  disconnectChannel: process.env.DISCONNECT_CHANNEL || '531654018909339650',
-  bugChannel: process.env.BUG_CHANNEL || '533714573031899156'
+  logChannel: process.env.LOG_CHANNEL || '768892341707604019',
+  disconnectChannel: process.env.DISCONNECT_CHANNEL || '768892341707604019',
+  bugChannel: process.env.BUG_CHANNEL || '768892299484069988'
 };
 
 // Generated Properties
