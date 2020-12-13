@@ -4,7 +4,7 @@ exports.run = (client, message, args) => {
         seconds = parseInt((client.uptime / 1000) % 60),
         minutes = parseInt((client.uptime / (1000 * 60)) % 60),
         hours = parseInt((client.uptime / (1000 * 60 * 60)) % 24),
-        days = parseInt((client.uptime / (1000 * 60 * 60 * 24)) % 7);
+        days = parseInt(client.uptime / (1000 * 60 * 60 * 24));
 
     hours = (hours < 10) ? "0" + hours : hours;
     minutes = (minutes < 10) ? "0" + minutes : minutes;
