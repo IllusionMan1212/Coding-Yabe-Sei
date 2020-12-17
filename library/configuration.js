@@ -8,7 +8,7 @@ const Configuration = {
   imgurClientId: process.env.IMGUR_CLIENT_ID,
   osuToken: process.env.OSU_TOKEN,
 
-  prefix: process.env.PREFIX || 'yabe',
+  prefix: process.env.PREFIX || 'yabe ',
   devs: {
       canarado: '427491040468140043',
       illusion: '407351772575694879',

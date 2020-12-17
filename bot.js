@@ -9,8 +9,8 @@ const client = new Discord.Client();
 client.config = config;
 client.commands = new Enmap();
 client.aliases = new Enmap();
-client.snipeMap = new Map();
 require("./utils.js")(client);
+require("./db/db.js");
 
 if (config.production != 'false') {
     const DBL = require("dblapi.js");
@@ -49,7 +49,6 @@ const start = async () => {
             return console.log(new Error(`FAIL: ${cmdFile.name}: ${e.stack}`));
         };
     });
-    console.log('I am prepared to decimate them weebs with my otaku-desu status ÒwÓ');
 
     client.login(config.botToken);
 };

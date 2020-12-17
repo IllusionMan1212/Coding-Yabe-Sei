@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+const Guild = require("../db/schemas/guild");
+const deletedMessage = require("../db/schemas/deletedMessage");
 
 module.exports = async (client) => {
     const { config } = client;
@@ -15,12 +17,34 @@ module.exports = async (client) => {
     }, 60000);
 
     console.log(`Ready to serve in ${client.channels.cache.size} channels on ${client.guilds.cache.size} servers, for a total of ${client.users.cache.size} users.`);
-    /*
-    setInterval( function() {
-        const index = Math.floor(Math.random() * (activitiesList -1) +1);
-        client.user.setActivity(activitiesList[index]);
-    }, 20000)
-    */
+
+    setInterval(() => {
+        Guild.find()
+        .populate("deletedMessages")
+        .exec((err, guilds) => {
+            if (err) {
+                console.error(err);
+            }
+            for (let i = 0; i < guilds.length; i++) { // for every guild, check if the last element (first deleted message) is over 24 hours old
+                if (guilds[i].deletedMessages.length && Date.now() - guilds[i].deletedMessages[guilds[i].deletedMessages.length - 1].deletedAt >= 3600000 * 24) {
+                    for (let j = 0; j < guilds[i].deletedMessages.length; j++) { // for each deleted message in the guild, find it and delete it from the messages collection and shift it from the array
+                        deletedMessage.findByIdAndDelete({ _id: guilds[i].deletedMessages[j]._id })
+                        .exec((err, message) => {
+                            if (err) {
+                                console.error(err);
+                            }
+                            guilds[i].deletedMessages.shift();
+                            guilds[i].save((err, guild) => {
+                                if (err) {
+                                    console.error(err);
+                                }
+                            });
+                        });
+                    }
+                }
+            };
+        });
+    }, 3600000 * 6); // check every guild's deleted messages age every 6 hours
 
     client.user.setActivity(`yabe help | ${client.guilds.cache.size} servers`, { type: 'PLAYING' });
 
