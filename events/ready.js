@@ -24,13 +24,9 @@ module.exports = async (client) => {
 
     client.user.setActivity(`yabe help | ${client.guilds.cache.size} servers`, { type: 'PLAYING' });
 
-    const cuties = ['Teehee owo', 'uwu', 'OwO', '\*owo\* notices bulgy wulgy', 'Lovies you papas!~', 'Nyaa! ฅ(＾・ω・＾ฅ)'];
-    const cutiesR = cuties[Math.floor(Math.random() * cuties.length)];
-
     let embed = new Discord.MessageEmbed()
-        .setTitle('I just restarted dads!')
+        .setTitle('I just restarted')
         .setTimestamp()
-        .setFooter(cutiesR)
         .setColor(config.embedColor);
 
     const channelId = config.logChannel;
