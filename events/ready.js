@@ -27,20 +27,21 @@ module.exports = async (client) => {
             }
             for (let i = 0; i < guilds.length; i++) { // for every guild, check if the last element (first deleted message) is over 24 hours old
                 if (guilds[i].deletedMessages.length && Date.now() - guilds[i].deletedMessages[guilds[i].deletedMessages.length - 1].deletedAt >= 3600000 * 24) {
-                    for (let j = 0; j < guilds[i].deletedMessages.length; j++) { // for each deleted message in the guild, find it and delete it from the messages collection and shift it from the array
-                        deletedMessage.findByIdAndDelete({ _id: guilds[i].deletedMessages[j]._id })
+                    const guildMessagesArray = guilds[i].deletedMessages.slice();
+                    for (let j = 0; j < guildMessagesArray.length; j++) { // for each deleted message in the guild, find it and delete it from the messages collection and shift it from the array
+                        deletedMessage.findByIdAndDelete({ _id: guildMessagesArray[j]._id })
                         .exec((err, message) => {
                             if (err) {
                                 console.error(err);
                             }
-                            guilds[i].deletedMessages.shift();
-                            guilds[i].save((err, guild) => {
-                                if (err) {
-                                    console.error(err);
-                                }
-                            });
                         });
                     }
+                    guilds[i].deletedMessages.length = 0;
+                    guilds[i].save((err, guild) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                    });
                 }
             };
         });
