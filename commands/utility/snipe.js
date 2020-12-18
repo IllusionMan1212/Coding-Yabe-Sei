@@ -18,6 +18,11 @@ exports.run = async (client, message, args) => {
             return;
         }
         if (guild) {
+            if (!guild.deletedMessages.length) {
+                msg.delete();
+                message.channel.send("Could not find any deleted messages".embedify());
+                return;
+            }
             let counter = 0
             if(args[0] == 'image') {
                 if(!args[1]) {
