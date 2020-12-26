@@ -4,9 +4,9 @@ const deletedMessageSchema = new mongoose.Schema({
     content: {
         type: String,
     },
-    image: {
+    images: [{
         type: String,
-    },
+    }],
     author: {
         type: String,
         required: true,

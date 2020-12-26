@@ -8,8 +8,6 @@ module.exports = async (client, message) => {
         return;
     }
 
-    let image = message.attachments.size > 0 ? extension(message.attachments.array()[0].proxyURL) : false
-
     message.content.replace('\n', '')
 
     if (message.content.length > 200) {
@@ -28,14 +26,18 @@ module.exports = async (client, message) => {
         d_msg.content = message.content;
         d_msg.author = message.author.id;
         d_msg.createdTimestamp = message.createdTimestamp;
-        if (image && message.attachments.array()[0].size < 524288) { // limit image size to 512 KB
-            let res = await axios.request({ method: "get", url: image, responseType: "arraybuffer" });
-            d_msg.image = "data:" + res.headers["content-type"] + ";base64," + Buffer.from(res.data).toString("base64"); // encode it to base64
+        for (let i = 0; i < message.attachments.array().length; i++) {
+            let image = message.attachments.size > 0 ? extension(message.attachments.array()[i].proxyURL) : false
+
+            if (image && message.attachments.array()[i].size < 524288) { // limit image size to 512 KB
+                let res = await axios.request({ method: "get", url: image, responseType: "arraybuffer" });
+                d_msg.images.push("data:" + res.headers["content-type"] + ";base64," + Buffer.from(res.data).toString("base64")); // encode it to base64
+            }
         }
         if (foundGuild) { // if server exists in db
             if (foundGuild.deletedMessages.length >= 20) { // maximum 20 deleted messages per server
                 // remove message from db
-                deletedMessage.findByIdAndDelete(foundGuild.deletedMessages[19]._id, (err, deletedMessage) => {
+                deletedMessage.findByIdAndDelete(foundGuild.deletedMessages[foundGuild.deletedMessages.length - 1]._id, (err, deletedMessage) => {
                     if (err) {
                         console.error(err);
                         return;
