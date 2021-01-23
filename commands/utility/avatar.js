@@ -22,7 +22,7 @@ exports.run = (client, message, args) => {
 
 		let embed = new Discord.MessageEmbed()
 			.setTitle(`**${target.username}'s** Avatar`)
-			.setImage(target.displayAvatarURL())
+			.setImage(target.displayAvatarURL() + "?size=2048")
 			.setColor(client.config.embedColor);
 		return message.channel.send(embed);
 
