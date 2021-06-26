@@ -23,7 +23,7 @@ module.exports = async (client) => {
     setInterval(() => {
         const now = new Date();
         if (now.getUTCHours() == 3 && now.getUTCMinutes() == 0) {
-            url = "https://api.illusionman1212.me/cheese/today"; 
+            url = "https://api.illusionman1212.me/cheese/today";
          
             request(url, function (error, _response, body) {
                 if (error) {
@@ -40,6 +40,7 @@ module.exports = async (client) => {
 
                 const embed = createCheeseEmbed(client, body.cheese);
 
+                client.channels.cache.get(process.env.CHEESE_CHANNEL).send("Cheese of the day");
                 client.channels.cache.get(process.env.CHEESE_CHANNEL).send(embed);
             })
         }
