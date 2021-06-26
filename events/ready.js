@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const Guild = require("../db/schemas/guild");
 const deletedMessage = require("../db/schemas/deletedMessage");
+const { createCheeseEmbed } = require("../commands/fun/cheese");
+const request = require("request");
 
 module.exports = async (client) => {
     const { config } = client;
@@ -17,6 +19,31 @@ module.exports = async (client) => {
     }, 60000);
 
     console.log(`Ready to serve in ${client.channels.cache.size} channels on ${client.guilds.cache.size} servers, for a total of ${client.users.cache.size} users.`);
+
+    setInterval(() => {
+        const now = new Date();
+        if (now.getUTCHours() == 3 && now.getUTCMinutes() == 0) {
+            url = "https://api.illusionman1212.me/cheese/today"; 
+         
+            request(url, function (error, _response, body) {
+                if (error) {
+                    message.channel.send("Sorry something seems to have gone wrong!");
+                    console.log(error);
+                    return;
+                }
+
+                body = JSON.parse(body);
+
+                if (body.failed) {
+                    message.channel.send("Sorry something seems to have gone wrong!. try again in a few minutes or submit a bug report");
+                }
+
+                const embed = createCheeseEmbed(client, body.cheese);
+
+                client.channels.cache.get(process.env.CHEESE_CHANNEL).send(embed);
+            })
+        }
+    }, 1000 * 60);
 
     setInterval(() => {
         Guild.find()
