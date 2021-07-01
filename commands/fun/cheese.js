@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const request = require("request");
 
-exports.createCheeseEmbed = (client, cheese) => {
+const createCheeseEmbed = exports.createCheeseEmbed = (client, cheese) => {
     const imgURL = cheese.image;
     const link = cheese.link;
     const name = cheese.name;
