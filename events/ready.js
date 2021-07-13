@@ -25,7 +25,7 @@ module.exports = async (client) => {
         if (now.getUTCHours() == 3 && now.getUTCMinutes() == 0) {
             url = "https://api.illusionman1212.me/cheese/today";
          
-            request(url, function (error, _response, body) {
+            request(url, async function (error, _response, body) {
                 if (error) {
                     message.channel.send("Sorry something seems to have gone wrong!");
                     console.log(error);
@@ -41,7 +41,8 @@ module.exports = async (client) => {
                 const embed = createCheeseEmbed(client, body.cheese);
 
                 client.channels.cache.get(process.env.CHEESE_CHANNEL).send("Cheese of the day");
-                client.channels.cache.get(process.env.CHEESE_CHANNEL).send(embed);
+                const msg = await client.channels.cache.get(process.env.CHEESE_CHANNEL).send(embed);
+                msg.react("🧀");
             })
         }
     }, 1000 * 60);
