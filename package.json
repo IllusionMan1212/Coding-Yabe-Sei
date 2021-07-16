@@ -27,10 +27,6 @@
     "test:coverage": "jest --coverage",
     "dev": "nodemon bot.js"
   },
-  "engines": {
-    "node": "10.16.0",
-    "npm": "6.10.0"
-  },
   "keywords": [],
   "author": "Canny-Illusion-Senpai",
   "license": "MIT"
